@@ -12,7 +12,7 @@ const paddle1 = {
 };
 
 const paddle2 = {
-  height: 100, 
+  height: 100,
   width: 10,
   xCoord: 670,
   yCoord: 290,
@@ -24,8 +24,9 @@ const ball = {
   yCoord: 345,
   directionX: 0,
   directionY: 0,
-  speed: 5,
-  radius: 10
+  speedY: 5,
+  speedX: 5,
+  radius: 10,
 };
 
 const dividerImage = new Image();
@@ -90,29 +91,35 @@ document.addEventListener(
 
 let randomNumber = Math.round(Math.random() * 10);
 
-function ballMove () {
-  function ballStart()
-  { if (randomNumber % 2) {
-    ball.yCoord -= ball.speed;}
-    else {ball.yCoord += ball.speed;}
+function ballMove() {
+  ball.directionX = ball.xCoord;
+  ball.directionY = ball.yCoord;
+  function ballStart() {
+    if (randomNumber % 2) {
+      ball.yCoord -= ball.speedY;
+    } else {
+      ball.yCoord += ball.speedY;
+    }
   }
   if (ball.xCoord === 300 && " " in keyClick) {
     ballStart();
     setInterval(ballStart, 100);
-    } 
+  }
   //collision detection
-    if (ball.xCoord >= (canvas.height - ball.radius)) {
-      ball.yCoord -= ball.speed;
-    }
-    }
-
+  if (ball.yCoord === 0) {
+    ball.yCoord -= ball.speedY;
+  }
+  if (ball.yCoord === 750) {
+    ball.yCoord += ball.speedY;
+  }
+}
 
 // function wallCollisionDetect() {
 //   if ((ball.xCoord - ball.radius) >= (canvas.height -10)){
-//    ball.yCoord += ball.speed; 
+//    ball.yCoord += ball.speed;
 // }
 //   if ((ball.xCoord - ball.radius) === canvas.height){
-//     ball.yCoord -= ball.speed; 
+//     ball.yCoord -= ball.speed;
 // }
 //   }
 
@@ -122,15 +129,15 @@ function ballMove () {
 //this does also not detect the  collision or do anything about it!
 
 // function paddleCollisionDetect() {
-//   if ((ball.yCoord - ball.radius) <= paddle1.y && 
+//   if ((ball.yCoord - ball.radius) <= paddle1.y &&
 //   (ball.yCoord - ball.radius) >= (paddle1.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
 //     ball.xCoord += ball.speed;}
-//     if ((ball.yCoord -ball.radius) <= paddle2.y && 
+//     if ((ball.yCoord -ball.radius) <= paddle2.y &&
 //     (ball.yCoord - ball.radius) >= (paddle2.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
-//        ball.xCoord -= ball.speed; 
+//        ball.xCoord -= ball.speed;
 // }
 //   }
-//ball.xCoord or ball.yCoord?? 
+//ball.xCoord or ball.yCoord??
 
 function checkReady() {
   this.ready = true;
@@ -153,8 +160,20 @@ function render() {
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   context.drawImage(dividerImage, 335, -25, 10, 750);
-  context.drawImage(paddleImage1, paddle1.xCoord, paddle1.yCoord, paddle1.width, paddle1.height);
-  context.drawImage(paddleImage2, paddle2.xCoord, paddle2.yCoord, paddle2.width, paddle2.height);
+  context.drawImage(
+    paddleImage1,
+    paddle1.xCoord,
+    paddle1.yCoord,
+    paddle1.width,
+    paddle1.height
+  );
+  context.drawImage(
+    paddleImage2,
+    paddle2.xCoord,
+    paddle2.yCoord,
+    paddle2.width,
+    paddle2.height
+  );
 
   context.beginPath();
   context.arc(ball.xCoord, ball.yCoord, ball.radius, 0, Math.PI * 2, true);
@@ -162,8 +181,6 @@ function render() {
   context.lineWidth = 2.5;
   context.stroke();
   context.fill();
-
- 
 }
 
 document.body.appendChild(canvas);
