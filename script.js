@@ -105,13 +105,6 @@ function ballMove() {
     ballStart();
     setInterval(ballStart, 100);
   }
-  //collision detection
-  if (ball.yCoord === 0) {
-    ball.yCoord -= ball.speedY;
-  }
-  if (ball.yCoord === 750) {
-    ball.yCoord += ball.speedY;
-  }
 }
 
 // function wallCollisionDetect() {
@@ -155,6 +148,14 @@ function render() {
   // wallCollisionDetect();
   // wallBounce();
   // paddleCollisionDetect();
+
+  // if (ball.yCoord = 0) {
+  //   ball.yCoord -= ball.speedY;
+  // }
+  // if (ball.yCoord = 750) {
+  //   ball.yCoord += ball.speedY;
+  // }
+  //colission detect? 
 
   context.fillStyle = "#b7c9e2";
   context.fillRect(0, 0, canvas.width, canvas.height);
