@@ -11,7 +11,7 @@ h1, h2 {
     flex-direction: column;
     text-align: center;
     position: relative;
-    left: -12%;
+    left: -8%;
 }
 
 h2 {
@@ -22,4 +22,7 @@ h2 {
     display: inline-block;
     margin-right: 4em;
     margin-top: -0.5em;
+}
+h3 {
+    margin-left: 0.5em;
 }

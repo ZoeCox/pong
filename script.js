@@ -27,6 +27,7 @@ const ball = {
   speedY: 1,
   speedX: 1,
   radius: 10,
+  moving: false
 };
 
 const dividerImage = new Image();
@@ -100,20 +101,24 @@ function ballMove() {
     else {
       ball.xCoord += ball.speedX;
     }
-    paddleCollisionDetect();
+    if (ball.moving) {
+      paddleCollisionDetect();
+    }
   }  
+  
+  function paddleCollisionDetect() {
+    if ((ball.yCoord - ball.radius) <= paddle1.y &&
+(ball.yCoord - ball.radius) >= (paddle1.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
+  ball.xCoord += ball.speed;
+console.log("Hit 1")}
+  if ((ball.yCoord -ball.radius) <= paddle2.y &&
+  (ball.yCoord - ball.radius) >= (paddle2.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
+    console.log("Hit 2")
+     ball.xCoord -= ball.speed;}
+     
+  clearInterval(ballMoveInterval);}
   // if(ball.xCoord + 5 === paddle1.xCoord + 5)
   //   {ball.xCoord += ball.speedX}
-
-
-// function paddleCollisionDetect() {
-//   if ((ball.yCoord - ball.radius) <= paddle1.y &&
-//     (ball.yCoord - ball.radius) >= (paddle1.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
-//       ball.xCoord += ball.speed;}
-//       if ((ball.yCoord -ball.radius) <= paddle2.y &&
-//       (ball.yCoord - ball.radius) >= (paddle2.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
-//          ball.xCoord -= ball.speed;}
-//   } 
   
 
 function checkReady() {
@@ -129,7 +134,8 @@ function playGame() {
 function render() {
   playerMove();
   if(ball.xCoord === 340 && " " in keyClick) {
-    setInterval(ballMove, 30);
+    ballMoveInterval = setInterval(ballMove, 30);
+    ball.moving = true;
   }
 
 
