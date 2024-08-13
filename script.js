@@ -20,12 +20,12 @@ const paddle2 = {
 };
 
 const ball = {
-  xCoord: 300,
+  xCoord: 340,
   yCoord: 345,
   directionX: 0,
   directionY: 0,
-  speedY: 5,
-  speedX: 5,
+  speedY: 1,
+  speedX: 1,
   radius: 10,
 };
 
@@ -55,16 +55,16 @@ document.addEventListener(
 );
 
 function playerMove() {
-  if ("ArrowUp" in keyClick) {
+  if ("w" in keyClick) {
     paddle1.yCoord -= paddle1.speed;
   }
-  if ("ArrowDown" in keyClick) {
+  if ("s" in keyClick) {
     paddle1.yCoord += paddle1.speed;
   }
-  if ("w" in keyClick) {
+  if ("ArrowUp" in keyClick) {
     paddle2.yCoord -= paddle2.speed;
   }
-  if ("s" in keyClick) {
+  if ("ArrowDown" in keyClick) {
     paddle2.yCoord += paddle2.speed;
   }
   if (paddle1.yCoord < 0) {
@@ -92,45 +92,29 @@ document.addEventListener(
 let randomNumber = Math.round(Math.random() * 10);
 
 function ballMove() {
-  ball.directionX = ball.xCoord;
-  ball.directionY = ball.yCoord;
-  function ballStart() {
-    if (randomNumber % 2) {
-      ball.yCoord -= ball.speedY;
-    } else {
-      ball.yCoord += ball.speedY;
+  ball.directionX = ball.xCoord + ball.speedX;
+  ball.directionY = ball.yCoord + ball.speedY;
+  if (randomNumber % 2) {
+    ball.xCoord -= ball.speedX;
+    } 
+    else {
+      ball.xCoord += ball.speedX;
     }
-  }
-  if (ball.xCoord === 300 && " " in keyClick) {
-    ballStart();
-    setInterval(ballStart, 100);
-  }
-}
+    paddleCollisionDetect();
+  }  
+  // if(ball.xCoord + 5 === paddle1.xCoord + 5)
+  //   {ball.xCoord += ball.speedX}
 
-// function wallCollisionDetect() {
-//   if ((ball.xCoord - ball.radius) >= (canvas.height -10)){
-//    ball.yCoord += ball.speed;
-// }
-//   if ((ball.xCoord - ball.radius) === canvas.height){
-//     ball.yCoord -= ball.speed;
-// }
-//   }
-
-// function wallBounce () {
-//   setInterval(wallCollisionDetect, 30)
-// }
-//this does also not detect the  collision or do anything about it!
 
 // function paddleCollisionDetect() {
 //   if ((ball.yCoord - ball.radius) <= paddle1.y &&
-//   (ball.yCoord - ball.radius) >= (paddle1.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
-//     ball.xCoord += ball.speed;}
-//     if ((ball.yCoord -ball.radius) <= paddle2.y &&
-//     (ball.yCoord - ball.radius) >= (paddle2.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
-//        ball.xCoord -= ball.speed;
-// }
-//   }
-//ball.xCoord or ball.yCoord??
+//     (ball.yCoord - ball.radius) >= (paddle1.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
+//       ball.xCoord += ball.speed;}
+//       if ((ball.yCoord -ball.radius) <= paddle2.y &&
+//       (ball.yCoord - ball.radius) >= (paddle2.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
+//          ball.xCoord -= ball.speed;}
+//   } 
+  
 
 function checkReady() {
   this.ready = true;
@@ -144,18 +128,10 @@ function playGame() {
 
 function render() {
   playerMove();
-  ballMove();
-  // wallCollisionDetect();
-  // wallBounce();
-  // paddleCollisionDetect();
+  if(ball.xCoord === 340 && " " in keyClick) {
+    setInterval(ballMove, 30);
+  }
 
-  // if (ball.yCoord = 0) {
-  //   ball.yCoord -= ball.speedY;
-  // }
-  // if (ball.yCoord = 750) {
-  //   ball.yCoord += ball.speedY;
-  // }
-  //colission detect? 
 
   context.fillStyle = "#b7c9e2";
   context.fillRect(0, 0, canvas.width, canvas.height);
