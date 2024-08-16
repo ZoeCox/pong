@@ -3,6 +3,11 @@ const context = canvas.getContext("2d");
 canvas.height = 700;
 canvas.width = 700;
 
+const score = {
+  player1: 0,
+  player2: 0,
+};
+
 const paddle1 = {
   height: 100,
   width: 10,
@@ -27,7 +32,7 @@ const ball = {
   speedY: 1,
   speedX: 1,
   radius: 10,
-  moving: false
+  moving: false,
 };
 
 const dividerImage = new Image();
@@ -90,36 +95,92 @@ document.addEventListener(
   false
 );
 
-let randomNumber = Math.round(Math.random() * 10);
+function gameStart() {
+  const randomNumber = Math.round(Math.random() * 10);
+  ball.directionX = randomNumber % 2 ? 1 : -1;
+  ball.xCoord -= ball.speedX;
+  ball.moving = true;
+}
 
 function ballMove() {
-  ball.directionX = ball.xCoord + ball.speedX;
-  ball.directionY = ball.yCoord + ball.speedY;
-  if (randomNumber % 2) {
-    ball.xCoord -= ball.speedX;
-    } 
-    else {
-      ball.xCoord += ball.speedX;
-    }
-    if (ball.moving) {
-      paddleCollisionDetect();
-    }
-  }  
-  
-  function paddleCollisionDetect() {
-    if ((ball.yCoord - ball.radius) <= paddle1.y &&
-(ball.yCoord - ball.radius) >= (paddle1.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
-  ball.xCoord += ball.speed;
-console.log("Hit 1")}
-  if ((ball.yCoord -ball.radius) <= paddle2.y &&
-  (ball.yCoord - ball.radius) >= (paddle2.y + paddle1.height) && ball.yCoord <= (paddle1.x + 10)){
-    console.log("Hit 2")
-     ball.xCoord -= ball.speed;}
-     
-  clearInterval(ballMoveInterval);}
-  // if(ball.xCoord + 5 === paddle1.xCoord + 5)
-  //   {ball.xCoord += ball.speedX}
-  
+  ball.xCoord += ball.speedX * ball.directionX;
+  ball.yCoord += ball.speedY * ball.directionY;
+}
+
+function roundReset() {
+  ball.xCoord = 340;
+  ball.yCoord = 345;
+  paddle1.xCoord = 20;
+  paddle1.yCoord = 290;
+  paddle2.xCoord = 670;
+  paddle2.yCoord = 290;
+  ball.moving = false;
+  ball.directionX = 0;
+  ball.directionY = 0;
+}
+
+function scoreColissionDetect() {
+  if (ball.xCoord >= 700) {
+    score.player1++;
+    roundReset();
+  } else if (ball.xCoord <= 0) {
+    score.player2++;
+    roundReset();
+  } else if (score.player1 === 5 || score.player2 === 5) {
+    alert(score.player1 === 5 ? "Player One Wins" : "Player Two Wins");
+    score.player1 = 0;
+    score.player2 = 0;
+  }
+}
+
+function wallCollisionDetect() {
+  const { ballBottom, ballTop } = getBallBounds();
+  const doesCollideWithTop = ballTop <= 0;
+  const doesCollideWithBottom = ballBottom >= canvas.height;
+  if (doesCollideWithTop || doesCollideWithBottom) {
+    ball.directionY = ball.directionY * -1;
+  }
+}
+
+function paddleCollisionDetect() {
+  const { ballLeading, ballTrailing, ballBottom, ballTop } = getBallBounds();
+  const { paddle1Bounds, paddle2Bounds } = getPaddleBounds();
+  const doesPaddle1Collide =
+    ballTrailing <= paddle1Bounds.surface &&
+    ballBottom >= paddle1Bounds.top &&
+    ballTop <= paddle1Bounds.bottom;
+  const doesPaddle2Collide =
+    ballLeading >= paddle2Bounds.surface &&
+    ballBottom >= paddle2Bounds.top &&
+    ballTop <= paddle2Bounds.bottom;
+  if (doesPaddle1Collide || doesPaddle2Collide) {
+    const randomNumber = Math.round(Math.random() * 10);
+    ball.directionY = randomNumber % 2 ? 1 : -1;
+    ball.directionX = ball.directionX * -1;
+  }
+}
+
+function getBallBounds() {
+  const ballLeading = ball.xCoord + ball.radius;
+  const ballTrailing = ball.xCoord - ball.radius;
+  const ballTop = ball.yCoord - ball.radius;
+  const ballBottom = ball.yCoord + ball.radius;
+  return { ballLeading, ballTrailing, ballTop, ballBottom };
+}
+
+function getPaddleBounds() {
+  const paddle1Bounds = {
+    top: paddle1.yCoord,
+    bottom: paddle1.yCoord + paddle1.height,
+    surface: paddle1.xCoord + paddle1.width,
+  };
+  const paddle2Bounds = {
+    top: paddle2.yCoord,
+    bottom: paddle2.yCoord + paddle2.height,
+    surface: paddle2.xCoord - paddle2.width,
+  };
+  return { paddle1Bounds, paddle2Bounds };
+}
 
 function checkReady() {
   this.ready = true;
@@ -128,17 +189,19 @@ function checkReady() {
 
 function playGame() {
   render();
+  playerMove();
+  if (ball.moving) {
+    ballMove();
+    paddleCollisionDetect();
+    scoreColissionDetect();
+    wallCollisionDetect();
+  } else if (" " in keyClick) {
+    gameStart();
+  }
   requestAnimationFrame(playGame);
 }
 
 function render() {
-  playerMove();
-  if(ball.xCoord === 340 && " " in keyClick) {
-    ballMoveInterval = setInterval(ballMove, 30);
-    ball.moving = true;
-  }
-
-
   context.fillStyle = "#b7c9e2";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -164,6 +227,10 @@ function render() {
   context.lineWidth = 2.5;
   context.stroke();
   context.fill();
+  context.font = "22px sans-serif";
+  const { player1, player2 } = score;
+  context.fillText(`Player One: ${player1}`, 20, 50);
+  context.fillText(`Player Two: ${player2}`, 365, 50);
 }
 
 document.body.appendChild(canvas);
