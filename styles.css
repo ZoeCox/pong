@@ -26,10 +26,11 @@ h2 {
   margin-top: -0.5em;
 }
 
-/* h1,
+h1,
 h2 {
-  right: -15%;
-} */
+  position: relative;
+  left: 1.5 %;
+}
 
 .controls,
 h1,
@@ -39,10 +40,18 @@ h2 {
   text-align: center;
 }
 
-.drop-icon {
-  position: relative;
-  left: 42.5%;
+.hide-icon {
   font-size: 2.5em;
+  position: relative;
+  left: 46%;
   margin-bottom: -0.5em;
   margin-top: -0.25em;
+}
+
+.drop-icon {
+  font-size: 2.5em;
+  position: relative;
+  left: 43%;
+  margin-bottom: 0.5em;
+  margin-top: -0.5em;
 }
