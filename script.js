@@ -13,7 +13,7 @@ const paddle1 = {
   width: 10,
   xCoord: 20,
   yCoord: 290,
-  speed: 1,
+  speed: 1.25,
 };
 
 const paddle2 = {
@@ -21,7 +21,7 @@ const paddle2 = {
   width: 10,
   xCoord: 670,
   yCoord: 290,
-  speed: 1,
+  speed: 1.25,
 };
 
 const ball = {
@@ -119,6 +119,28 @@ function roundReset() {
   ball.directionY = 0;
 }
 
+function gameReset(){
+  roundReset()
+  if (score.player1 === 5 || score.player2 === 5) {
+    score.player1 = 0;
+    score.player2 = 0;
+  }
+}
+
+function endScreen() {
+  context.fillStyle = "#b7c9e2";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.font = "66px sans-serif";
+    context.fillStyle = "white";
+    score.player1 === 5 ? context.fillText("Player One Wins! 🏆", 60, 345) : context.fillText("Player Two Wins! 🏆", 50, 345);
+    context.font = "32px sans-serif";
+    context.fillStyle = "white";
+    context.fillText("Press the spacebar to play again", 95, 425)
+    if (" " in keyClick ) {
+      gameReset();
+    }
+}
+
 function scoreColissionDetect() {
   if (ball.xCoord >= 700) {
     score.player1++;
@@ -126,12 +148,7 @@ function scoreColissionDetect() {
   } else if (ball.xCoord <= 0) {
     score.player2++;
     roundReset();
-  } else if (score.player1 === 5 || score.player2 === 5) {
-    alert(score.player1 === 5 ? "Player One Wins" : "Player Two Wins");
-    score.player1 = 0;
-    score.player2 = 0;
-  }
-}
+  } }
 
 function wallCollisionDetect() {
   const { ballBottom, ballTop } = getBallBounds();
@@ -231,6 +248,9 @@ function render() {
   const { player1, player2 } = score;
   context.fillText(`Player One: ${player1}`, 20, 50);
   context.fillText(`Player Two: ${player2}`, 365, 50);
+  if (score.player1 === 5 || score.player2 === 5) {
+    endScreen()
+  }
 }
 
 document.body.appendChild(canvas);
