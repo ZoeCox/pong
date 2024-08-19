@@ -3,6 +3,8 @@ const context = canvas.getContext("2d");
 canvas.height = 700;
 canvas.width = 700;
 
+const bounceSound = document.querySelector(".bounce-sound")
+
 const score = {
   player1: 0,
   player2: 0,
@@ -105,6 +107,10 @@ function gameStart() {
 function ballMove() {
   ball.xCoord += ball.speedX * ball.directionX;
   ball.yCoord += ball.speedY * ball.directionY;
+}
+
+function playHitSound () {
+  bounceSound.play()
 }
 
 function roundReset() {

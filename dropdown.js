@@ -27,8 +27,6 @@ dropDown.addEventListener("click", function () {
   if (!dropDownExpanded) {
     openDropdown();
   }
-  //  else if (dropDownExpanded);
-  // closeDropdown();
 });
 
 hideDropDown.addEventListener("click", function () {
