@@ -23,7 +23,7 @@ h1 {
   padding-top: 0.75em;
   padding-bottom: 0.075em;
   position: relative;
-  left: 2.075%;
+  left: 1.25%;
 }
 h2 {
   margin-bottom: 0.5em;
@@ -33,7 +33,6 @@ h2 {
 
 h1,
 h2 {
- 
   margin-top: -0.5em;
 }
 .controls {
@@ -69,12 +68,14 @@ h2 {
   }
 }
 
-
 @media (max-width: 900px) {
   .screen-message {
     display: flex;
-  } 
-  canvas, h2, audio, .controls {
+  }
+  canvas,
+  h2,
+  audio,
+  .controls {
     display: none;
   }
 }
