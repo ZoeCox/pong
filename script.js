@@ -197,17 +197,17 @@ function paddleCollisionDetect() {
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? -1 : -1.5;
     ball.directionX = ball.directionX * -1;
-    console.log("top hit on paddle")
+   
   }
   else if (doesPaddle1MiddleCollide || doesPaddle2MiddleCollide) {
     ball.directionX = ball.directionX * -1;
-    console.log("middle hit on paddle")
+
   }
  else if (doesPaddle1BottomCollide || doesPaddle2BottomCollide) {
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? +1 : +1.5;
     ball.directionX = ball.directionX * -1;
-    console.log("bottom hit on paddle")
+
   }
 }
 
