@@ -14,7 +14,7 @@ const paddle1 = {
   height: 100,
   width: 10,
   xCoord: 20,
-  yCoord: 290,
+  yCoord: 300,
   speed: 1.25,
 };
 
@@ -22,13 +22,13 @@ const paddle2 = {
   height: 100,
   width: 10,
   xCoord: 670,
-  yCoord: 290,
+  yCoord: 300,
   speed: 1.25,
 };
 
 const ball = {
   xCoord: 340,
-  yCoord: 345,
+  yCoord: 360 ,
   directionX: 0,
   directionY: 0,
   speedY: 1,
@@ -165,21 +165,49 @@ function wallCollisionDetect() {
   }
 }
 
+
+
 function paddleCollisionDetect() {
-  const { ballLeading, ballTrailing, ballBottom, ballTop } = getBallBounds();
-  const { paddle1Bounds, paddle2Bounds } = getPaddleBounds();
-  const doesPaddle1Collide =
+  const {ballLeading, ballTrailing, ballBottom, ballTop } = getBallBounds();
+  const {paddle1Bounds, paddle2Bounds } = getPaddleBounds();
+  const doesPaddle1TopCollide =
     ballTrailing <= paddle1Bounds.surface &&
-    ballBottom >= paddle1Bounds.top &&
-    ballTop <= paddle1Bounds.bottom;
-  const doesPaddle2Collide =
+    ballBottom >= paddle1Bounds.top && ballTop <= paddle1Bounds.middleStart;
+    const doesPaddle1MiddleCollide =
+    ballTrailing <= paddle1Bounds.surface &&
+    ballBottom >= paddle1Bounds.middleStart +1 && ballTop <= paddle1Bounds.middleEnd -1;
+    const doesPaddle1BottomCollide =
+    ballTrailing <= paddle1Bounds.surface &&
+    ballBottom >= paddle1Bounds.middleEnd && ballTop <= paddle1Bounds.bottom;
+    // paddle 1 collision
+  const doesPaddle2TopCollide =
     ballLeading >= paddle2Bounds.surface &&
     ballBottom >= paddle2Bounds.top &&
+    ballTop <= paddle2Bounds.middleStart;
+    const doesPaddle2MiddleCollide =
+    ballLeading >= paddle2Bounds.surface &&
+    ballBottom >= paddle2Bounds.middleStart + 1 &&
+    ballTop <= paddle2Bounds.middleEnd -1;
+    const doesPaddle2BottomCollide =
+    ballLeading >= paddle2Bounds.surface &&
+    ballBottom >= paddle2Bounds.middleEnd && 
     ballTop <= paddle2Bounds.bottom;
-  if (doesPaddle1Collide || doesPaddle2Collide) {
+    // paddle 2 collision-
+  if ( doesPaddle1TopCollide || doesPaddle2TopCollide) {
     const randomNumber = Math.round(Math.random() * 10);
-    ball.directionY = randomNumber % 2 ? 1 : -1;
+    ball.directionY = randomNumber % 2 ? -1 : -1.5;
     ball.directionX = ball.directionX * -1;
+    console.log("top hit on paddle")
+  }
+  else if (doesPaddle1MiddleCollide || doesPaddle2MiddleCollide) {
+    ball.directionX = ball.directionX * -1;
+    console.log("middle hit on paddle")
+  }
+ else if (doesPaddle1BottomCollide || doesPaddle2BottomCollide) {
+    const randomNumber = Math.round(Math.random() * 10);
+    ball.directionY = randomNumber % 2 ? +1 : +1.5;
+    ball.directionX = ball.directionX * -1;
+    console.log("bottom hit on paddle")
   }
 }
 
@@ -192,18 +220,24 @@ function getBallBounds() {
 }
 
 function getPaddleBounds() {
-  const paddle1Bounds = {
-    top: paddle1.yCoord,
-    bottom: paddle1.yCoord + paddle1.height,
-    surface: paddle1.xCoord + paddle1.width,
-  };
+const paddle1Bounds = {
+  top: paddle1.yCoord, 
+  middleStart: paddle1.yCoord + 45,
+  middleEnd: paddle1.yCoord + 55,
+  bottom: paddle1.yCoord + paddle1.height,
+surface: paddle1.xCoord + paddle1.width,
+};
   const paddle2Bounds = {
-    top: paddle2.yCoord,
-    bottom: paddle2.yCoord + paddle2.height,
-    surface: paddle2.xCoord - paddle2.width,
-  };
+      top: paddle2.yCoord,
+      middleStart: paddle2.yCoord + 45,
+      middleEnd: paddle2.yCoord + 55,
+      bottom: paddle2.yCoord + paddle2.height,
+      surface: paddle2.xCoord - paddle2.width,
+    };
   return { paddle1Bounds, paddle2Bounds };
-}
+  }
+
+
 
 function checkReady() {
   this.ready = true;
