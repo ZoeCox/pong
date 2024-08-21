@@ -1,3 +1,4 @@
+
 const dropDown = document.querySelector(".drop-icon");
 const hideDropDown = document.querySelector(".hide-icon");
 const instruction = document.querySelector(".instruction");
@@ -34,3 +35,5 @@ hideDropDown.addEventListener("click", function () {
     closeDropdown();
   }
 });
+
+

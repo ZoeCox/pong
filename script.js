@@ -4,6 +4,9 @@ canvas.height = 700;
 canvas.width = 700;
 
 const bounceSound = document.querySelector(".bounce-sound");
+const wallBounceSound = document.querySelector(".bounce-wall-sound");
+const scoreSound = document.querySelector(".score-sound");
+
 
 const score = {
   player1: 0,
@@ -24,6 +27,7 @@ const paddle2 = {
   xCoord: 670,
   yCoord: 300,
   speed: 1.25,
+
 };
 
 const ball = {
@@ -58,8 +62,9 @@ document.addEventListener(
   "keydown",
   function (event) {
     keyClick[event.key] = true;
+   
   },
-  false
+  false,
 );
 
 function playerMove() {
@@ -75,17 +80,17 @@ function playerMove() {
   if ("ArrowDown" in keyClick) {
     paddle2.yCoord += paddle2.speed;
   }
-  if (paddle1.yCoord < 0) {
-    paddle1.yCoord = canvas.height - 100;
+  if (paddle1.yCoord + 20 <= 0 && "w" in keyClick) {
+    paddle1.yCoord = canvas.height - 40;
   }
-  if (paddle1.yCoord >= canvas.height - 10) {
-    paddle1.yCoord = 0;
+  if (paddle1.yCoord + 50 >= canvas.height -10  && "s" in keyClick) {
+    paddle1.yCoord = -40;
   }
-  if (paddle2.yCoord < 0) {
-    paddle2.yCoord = canvas.height - 100;
+  if (paddle2.yCoord + 20 <= 0 && "ArrowUp" in keyClick) {
+    paddle2.yCoord = canvas.height - 40;
   }
-  if (paddle2.yCoord >= canvas.height - 10) {
-    paddle2.yCoord = 0;
+  if (paddle2.yCoord + 50 >= canvas.height - 10 && "ArrowDown" in keyClick) {
+    paddle2.yCoord = -40;
   }
 }
 
@@ -107,10 +112,6 @@ function gameStart() {
 function ballMove() {
   ball.xCoord += ball.speedX * ball.directionX;
   ball.yCoord += ball.speedY * ball.directionY;
-}
-
-function playHitSound() {
-  bounceSound.play();
 }
 
 function roundReset() {
@@ -151,9 +152,11 @@ function endScreen() {
 
 function scoreColissionDetect() {
   if (ball.xCoord >= 700) {
+    scoreSound.play();
     score.player1++;
     roundReset();
   } else if (ball.xCoord <= 0) {
+    scoreSound.play();
     score.player2++;
     roundReset();
   }
@@ -164,6 +167,7 @@ function wallCollisionDetect() {
   const doesCollideWithTop = ballTop <= 0;
   const doesCollideWithBottom = ballBottom >= canvas.height;
   if (doesCollideWithTop || doesCollideWithBottom) {
+    wallBounceSound.play();
     ball.directionY = ball.directionY * -1;
   }
 }
@@ -198,15 +202,21 @@ function paddleCollisionDetect() {
     ballTop <= paddle2Bounds.bottom;
   // paddle 2 collision-
   if (doesPaddle1TopCollide || doesPaddle2TopCollide) {
+    bounceSound.play();
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? -1 : -1.5;
     ball.directionX = ball.directionX * -1;
+    
   } else if (doesPaddle1MiddleCollide || doesPaddle2MiddleCollide) {
+    bounceSound.play();
     ball.directionX = ball.directionX * -1;
+   
   } else if (doesPaddle1BottomCollide || doesPaddle2BottomCollide) {
+    bounceSound.play();
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? +1 : +1.5;
     ball.directionX = ball.directionX * -1;
+    
   }
 }
 
