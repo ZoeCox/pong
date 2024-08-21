@@ -3,7 +3,7 @@ const context = canvas.getContext("2d");
 canvas.height = 700;
 canvas.width = 700;
 
-const bounceSound = document.querySelector(".bounce-sound")
+const bounceSound = document.querySelector(".bounce-sound");
 
 const score = {
   player1: 0,
@@ -28,7 +28,7 @@ const paddle2 = {
 
 const ball = {
   xCoord: 340,
-  yCoord: 360 ,
+  yCoord: 360,
   directionX: 0,
   directionY: 0,
   speedY: 1,
@@ -109,8 +109,8 @@ function ballMove() {
   ball.yCoord += ball.speedY * ball.directionY;
 }
 
-function playHitSound () {
-  bounceSound.play()
+function playHitSound() {
+  bounceSound.play();
 }
 
 function roundReset() {
@@ -125,8 +125,8 @@ function roundReset() {
   ball.directionY = 0;
 }
 
-function gameReset(){
-  roundReset()
+function gameReset() {
+  roundReset();
   if (score.player1 === 5 || score.player2 === 5) {
     score.player1 = 0;
     score.player2 = 0;
@@ -135,16 +135,18 @@ function gameReset(){
 
 function endScreen() {
   context.fillStyle = "#b7c9e2";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.font = "66px sans-serif";
-    context.fillStyle = "white";
-    score.player1 === 5 ? context.fillText("Player One Wins! 🏆", 60, 345) : context.fillText("Player Two Wins! 🏆", 50, 345);
-    context.font = "32px sans-serif";
-    context.fillStyle = "white";
-    context.fillText("Press the spacebar to play again", 95, 425)
-    if (" " in keyClick ) {
-      gameReset();
-    }
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.font = "66px sans-serif";
+  context.fillStyle = "white";
+  score.player1 === 5
+    ? context.fillText("Player One Wins! 🏆", 60, 345)
+    : context.fillText("Player Two Wins! 🏆", 50, 345);
+  context.font = "32px sans-serif";
+  context.fillStyle = "white";
+  context.fillText("Press the spacebar to play again", 95, 425);
+  if (" " in keyClick) {
+    gameReset();
+  }
 }
 
 function scoreColissionDetect() {
@@ -154,7 +156,8 @@ function scoreColissionDetect() {
   } else if (ball.xCoord <= 0) {
     score.player2++;
     roundReset();
-  } }
+  }
+}
 
 function wallCollisionDetect() {
   const { ballBottom, ballTop } = getBallBounds();
@@ -165,49 +168,45 @@ function wallCollisionDetect() {
   }
 }
 
-
-
 function paddleCollisionDetect() {
-  const {ballLeading, ballTrailing, ballBottom, ballTop } = getBallBounds();
-  const {paddle1Bounds, paddle2Bounds } = getPaddleBounds();
+  const { ballLeading, ballTrailing, ballBottom, ballTop } = getBallBounds();
+  const { paddle1Bounds, paddle2Bounds } = getPaddleBounds();
   const doesPaddle1TopCollide =
     ballTrailing <= paddle1Bounds.surface &&
-    ballBottom >= paddle1Bounds.top && ballTop <= paddle1Bounds.middleStart;
-    const doesPaddle1MiddleCollide =
+    ballBottom >= paddle1Bounds.top &&
+    ballTop <= paddle1Bounds.middleStart;
+  const doesPaddle1MiddleCollide =
     ballTrailing <= paddle1Bounds.surface &&
-    ballBottom >= paddle1Bounds.middleStart +1 && ballTop <= paddle1Bounds.middleEnd -1;
-    const doesPaddle1BottomCollide =
+    ballBottom >= paddle1Bounds.middleStart + 1 &&
+    ballTop <= paddle1Bounds.middleEnd - 1;
+  const doesPaddle1BottomCollide =
     ballTrailing <= paddle1Bounds.surface &&
-    ballBottom >= paddle1Bounds.middleEnd && ballTop <= paddle1Bounds.bottom;
-    // paddle 1 collision
+    ballBottom >= paddle1Bounds.middleEnd &&
+    ballTop <= paddle1Bounds.bottom;
+  // paddle 1 collision
   const doesPaddle2TopCollide =
     ballLeading >= paddle2Bounds.surface &&
     ballBottom >= paddle2Bounds.top &&
     ballTop <= paddle2Bounds.middleStart;
-    const doesPaddle2MiddleCollide =
+  const doesPaddle2MiddleCollide =
     ballLeading >= paddle2Bounds.surface &&
     ballBottom >= paddle2Bounds.middleStart + 1 &&
-    ballTop <= paddle2Bounds.middleEnd -1;
-    const doesPaddle2BottomCollide =
+    ballTop <= paddle2Bounds.middleEnd - 1;
+  const doesPaddle2BottomCollide =
     ballLeading >= paddle2Bounds.surface &&
-    ballBottom >= paddle2Bounds.middleEnd && 
+    ballBottom >= paddle2Bounds.middleEnd &&
     ballTop <= paddle2Bounds.bottom;
-    // paddle 2 collision-
-  if ( doesPaddle1TopCollide || doesPaddle2TopCollide) {
+  // paddle 2 collision-
+  if (doesPaddle1TopCollide || doesPaddle2TopCollide) {
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? -1 : -1.5;
     ball.directionX = ball.directionX * -1;
-   
-  }
-  else if (doesPaddle1MiddleCollide || doesPaddle2MiddleCollide) {
+  } else if (doesPaddle1MiddleCollide || doesPaddle2MiddleCollide) {
     ball.directionX = ball.directionX * -1;
-
-  }
- else if (doesPaddle1BottomCollide || doesPaddle2BottomCollide) {
+  } else if (doesPaddle1BottomCollide || doesPaddle2BottomCollide) {
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? +1 : +1.5;
     ball.directionX = ball.directionX * -1;
-
   }
 }
 
@@ -220,24 +219,22 @@ function getBallBounds() {
 }
 
 function getPaddleBounds() {
-const paddle1Bounds = {
-  top: paddle1.yCoord, 
-  middleStart: paddle1.yCoord + 45,
-  middleEnd: paddle1.yCoord + 55,
-  bottom: paddle1.yCoord + paddle1.height,
-surface: paddle1.xCoord + paddle1.width,
-};
+  const paddle1Bounds = {
+    top: paddle1.yCoord,
+    middleStart: paddle1.yCoord + 45,
+    middleEnd: paddle1.yCoord + 55,
+    bottom: paddle1.yCoord + paddle1.height,
+    surface: paddle1.xCoord + paddle1.width,
+  };
   const paddle2Bounds = {
-      top: paddle2.yCoord,
-      middleStart: paddle2.yCoord + 45,
-      middleEnd: paddle2.yCoord + 55,
-      bottom: paddle2.yCoord + paddle2.height,
-      surface: paddle2.xCoord - paddle2.width,
-    };
+    top: paddle2.yCoord,
+    middleStart: paddle2.yCoord + 45,
+    middleEnd: paddle2.yCoord + 55,
+    bottom: paddle2.yCoord + paddle2.height,
+    surface: paddle2.xCoord,
+  };
   return { paddle1Bounds, paddle2Bounds };
-  }
-
-
+}
 
 function checkReady() {
   this.ready = true;
@@ -245,7 +242,6 @@ function checkReady() {
 }
 
 function playGame() {
-  render();
   playerMove();
   if (ball.moving) {
     ballMove();
@@ -255,6 +251,7 @@ function playGame() {
   } else if (" " in keyClick) {
     gameStart();
   }
+  render();
   requestAnimationFrame(playGame);
 }
 
@@ -289,7 +286,7 @@ function render() {
   context.fillText(`Player One: ${player1}`, 20, 50);
   context.fillText(`Player Two: ${player2}`, 365, 50);
   if (score.player1 === 5 || score.player2 === 5) {
-    endScreen()
+    endScreen();
   }
 }
 
