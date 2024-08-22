@@ -6,7 +6,7 @@ canvas.width = 700;
 const bounceSound = document.querySelector(".bounce-sound");
 const wallBounceSound = document.querySelector(".bounce-wall-sound");
 const scoreSound = document.querySelector(".score-sound");
-
+const winSound = document.querySelector(".win-sound");
 
 const score = {
   player1: 0,
@@ -220,6 +220,7 @@ function paddleCollisionDetect() {
   }
 }
 
+
 function getBallBounds() {
   const ballLeading = ball.xCoord + ball.radius;
   const ballTrailing = ball.xCoord - ball.radius;
@@ -296,6 +297,7 @@ function render() {
   context.fillText(`Player One: ${player1}`, 20, 50);
   context.fillText(`Player Two: ${player2}`, 365, 50);
   if (score.player1 === 5 || score.player2 === 5) {
+    winSound.play();
     endScreen();
   }
 }
