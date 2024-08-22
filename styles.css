@@ -92,9 +92,3 @@ h2 {
     display: none;
   }
 }
-
-@media (min-height: 866px) {
-  .screen-message {
-    display: none;
-  }
-}
