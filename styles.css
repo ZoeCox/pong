@@ -18,32 +18,22 @@ canvas {
   top: 0;
   border: solid 0.75em black;
   margin-top: 0.75em;
+  
 }
 
-h1 {
-  padding-top: 1em;
+.intro {
   margin-bottom: 0.5em;
-  position: relative;
-  left: 2%;
-}
-h2 {
-  margin-bottom: 0.5em;
-  position: relative;
-  left: 1.65%;
+  padding-left: 3em;
 }
 
-h1,
-h2 {
-  margin-top: -0.5em;
-}
 .controls {
-  margin-top: -1em;
+  margin-top: -2em;
 }
 
 .controls,
 h1,
 h2 {
-  margin-right: 3.5em;
+  margin-right:2.5em;
   text-align: center;
 }
 
@@ -63,32 +53,35 @@ h2 {
   margin-top: -0.5em;
 }
 
-@media (min-width: 899px) {
-  .screen-message {
-    display: none;
-  }
-}
 
 @media (max-width: 900px) {
-  .screen-message {
-    display: flex;
+  canvas {
+    height: 70vw;
+    width: 70vw;
+    }
   }
-  canvas,
-  h2,
-  audio,
-  .controls {
-    display: none;
+
+  
+ @media (min-width: 901px) {
+  canvas {
+  height: 60vw;
+  width: 60vw;
   }
 }
 
-@media (max-height: 865px) {
-  .screen-message {
-    display: flex;
+  @media (min-width: 1300px) {
+    canvas {
+    height: 30vw !important;
+    width: 30vw !important;
+    }
   }
-  canvas,
-  h2,
-  audio,
-  .controls {
-    display: none;
+
+  @media (min-width: 3400px) {
+    canvas {
+    height: 20vw !important;
+    width: 20vw !important;
+    }
   }
-}
+
+  
+
