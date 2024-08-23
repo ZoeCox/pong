@@ -8,6 +8,8 @@ const wallBounceSound = document.querySelector(".bounce-wall-sound");
 const scoreSound = document.querySelector(".score-sound");
 const winSound = document.querySelector(".win-sound");
 
+let shouldWinSoundPlay = true;
+
 const score = {
   player1: 0,
   player2: 0,
@@ -139,6 +141,10 @@ function endScreen() {
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.font = "66px sans-serif";
   context.fillStyle = "white";
+  if (shouldWinSoundPlay)
+  {winSound.play();
+    shouldWinSoundPlay = false;
+  }
   score.player1 === 5
     ? context.fillText("Player One Wins! 🏆", 60, 345)
     : context.fillText("Player Two Wins! 🏆", 50, 345);
@@ -297,7 +303,6 @@ function render() {
   context.fillText(`Player One: ${player1}`, 20, 50);
   context.fillText(`Player Two: ${player2}`, 365, 50);
   if (score.player1 === 5 || score.player2 === 5) {
-    winSound.play();
     endScreen();
   }
 }
