@@ -11,7 +11,7 @@ const winSound = document.querySelector(".win-sound");
 let shouldWinSoundPlay = true;
 
 const score = {
-  player1: 4,
+  player1: 0,
   player2: 0,
 };
 
