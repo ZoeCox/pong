@@ -11,7 +11,7 @@ const winSound = document.querySelector(".win-sound");
 let shouldWinSoundPlay = true;
 
 const score = {
-  player1: 0,
+  player1: 4,
   player2: 0,
 };
 
@@ -130,6 +130,7 @@ function roundReset() {
 
 function gameReset() {
   roundReset();
+  shouldWinSoundPlay = true;
   if (score.player1 === 5 || score.player2 === 5) {
     score.player1 = 0;
     score.player2 = 0;
