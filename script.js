@@ -29,7 +29,6 @@ const paddle2 = {
   xCoord: 670,
   yCoord: 300,
   speed: 1.25,
-
 };
 
 const ball = {
@@ -64,9 +63,8 @@ document.addEventListener(
   "keydown",
   function (event) {
     keyClick[event.key] = true;
-   
   },
-  false,
+  false
 );
 
 function playerMove() {
@@ -85,7 +83,7 @@ function playerMove() {
   if (paddle1.yCoord + 20 <= 0 && "w" in keyClick) {
     paddle1.yCoord = canvas.height - 40;
   }
-  if (paddle1.yCoord + 50 >= canvas.height -10  && "s" in keyClick) {
+  if (paddle1.yCoord + 50 >= canvas.height - 10 && "s" in keyClick) {
     paddle1.yCoord = -40;
   }
   if (paddle2.yCoord + 20 <= 0 && "ArrowUp" in keyClick) {
@@ -142,8 +140,8 @@ function endScreen() {
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.font = "66px sans-serif";
   context.fillStyle = "white";
-  if (shouldWinSoundPlay)
-  {winSound.play();
+  if (shouldWinSoundPlay) {
+    winSound.play();
     shouldWinSoundPlay = false;
   }
   score.player1 === 5
@@ -213,20 +211,16 @@ function paddleCollisionDetect() {
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? -1 : -1.5;
     ball.directionX = ball.directionX * -1;
-    
   } else if (doesPaddle1MiddleCollide || doesPaddle2MiddleCollide) {
     bounceSound.play();
     ball.directionX = ball.directionX * -1;
-   
   } else if (doesPaddle1BottomCollide || doesPaddle2BottomCollide) {
     bounceSound.play();
     const randomNumber = Math.round(Math.random() * 10);
     ball.directionY = randomNumber % 2 ? +1 : +1.5;
     ball.directionX = ball.directionX * -1;
-    
   }
 }
-
 
 function getBallBounds() {
   const ballLeading = ball.xCoord + ball.radius;
@@ -272,8 +266,7 @@ function playGame() {
   render();
   requestAnimationFrame(playGame);
 }
-
-function render() {
++function render() {
   context.fillStyle = "#b7c9e2";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -306,6 +299,6 @@ function render() {
   if (score.player1 === 5 || score.player2 === 5) {
     endScreen();
   }
-}
+};
 
 document.body.appendChild(canvas);
